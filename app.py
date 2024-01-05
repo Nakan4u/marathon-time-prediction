@@ -1,10 +1,13 @@
 import os
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 from src.generate import generatePlan
 from src.predict import predictMarathonTime
 
 # pylint: disable=C0103
 app = Flask(__name__)
+# TODO remove cors when app will be deployed with front-end
+CORS(app) 
 
 @app.route('/')
 def hello():
