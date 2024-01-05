@@ -21,21 +21,46 @@ def predict():
     age = request.args.get('age', default = '18', type = int)
     gender = request.args.get('gender', default = 'male', type = str)
 
+    if age is None:
+        return jsonify({"error": "age parameter is required"}), 400
+    if gender is None:
+        return jsonify({"error": "gender parameter is required"}), 400
+
+    if age < 18:
+        return jsonify({"error": 'You are too young to run'}), 400
+    elif age > 80:
+        return jsonify({"error": "you are too old to run"}), 400
+
+    if gender not in ["male", "female"]:
+        return jsonify({"error": "gender must be \"male\" or \"female\""}), 400
+
     # prediction = model.predict(age, gender)
     time = predictMarathonTime(int(age), gender)
-    result = {
-        "time": time
-    }
     
-    return jsonify(result)
+    if (time):
+        return jsonify({"time": time})
+    
+    return jsonify({"error": "an error happen, we can not predict your time :("}), 400
 
 @app.route('/plan')
 def getPlan():
     mounts = request.args.get('mounts', default = '6', type = int)
+
+    if mounts is None:
+        return jsonify({"error": "mounts parameter is required"}), 400
+
+    if mounts < 3:
+        return jsonify({"error": "mounts must be greater than 3"}), 400
+    elif mounts > 12:
+        return jsonify({"error": "mounts must be greater less then 12"}), 400
+
     prompt = (f"Ти тренер з бігу, мені потрібний тренувальний план на {mounts} місяці, розписаний по місяцям")
     result = generatePlan(prompt)
 
-    return result
+    if (result):
+        return result
+        
+    return jsonify({"error": "an error happen, we can not get your plan :("}), 400
 
 if __name__ == '__main__':
     server_port = os.environ.get('PORT', '8080')
