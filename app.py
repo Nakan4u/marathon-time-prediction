@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from src.generate import generatePlan
 from src.predict import predictMarathonTime
+from src.helpers import get_pace_time
 
 # pylint: disable=C0103
 app = Flask(__name__)
@@ -38,7 +39,8 @@ def predict():
     time = predictMarathonTime(int(age), gender)
     
     if (time):
-        return jsonify({"time": time})
+        pace = get_pace_time(time)
+        return jsonify({"time": time, "pace": pace})
     
     return jsonify({"error": "an error happen, we can not predict your time :("}), 400
 
@@ -59,7 +61,7 @@ def getPlan():
 
     if (result):
         return result
-        
+
     return jsonify({"error": "an error happen, we can not get your plan :("}), 400
 
 if __name__ == '__main__':
