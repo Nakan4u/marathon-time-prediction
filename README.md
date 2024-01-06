@@ -13,4 +13,4 @@ To get predictions you need provide your age and gender as query params:
 ## Get marathon training plan
 To get tranning plan within Google Vertex AI API, you need provide age, gender, assistant and amount of months as a query params:
 
-[link](https://martahon-prediction-app-uu77f463wa-ez.a.run.app/plan?age=30&gender=male&mounts=6&assistant=vertex-ai)
+[link](https://martahon-prediction-app-uu77f463wa-ez.a.run.app/plan?age=30&gender=male&mounts=6&assistant=open-ai)

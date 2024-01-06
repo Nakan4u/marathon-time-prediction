@@ -49,7 +49,7 @@ def getPlan():
     months = request.args.get('months', default = '6', type = int)
     age = request.args.get('age', default = '18', type = int)
     gender = request.args.get('gender', default = 'male', type = str)
-    assistant = request.args.get('assistant', default = 'vertex-ai', type = str)
+    assistant = request.args.get('assistant', default = 'open-ai', type = str)
 
     if months is None:
         return jsonify({"error": "months parameter is required"}), 400
