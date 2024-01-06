@@ -47,6 +47,8 @@ def predict():
 @app.route('/plan')
 def getPlan():
     mounts = request.args.get('mounts', default = '6', type = int)
+    age = request.args.get('age', default = '18', type = int)
+    gender = request.args.get('gender', default = 'male', type = str)
 
     if mounts is None:
         return jsonify({"error": "mounts parameter is required"}), 400
@@ -55,8 +57,24 @@ def getPlan():
         return jsonify({"error": "mounts must be greater than 3"}), 400
     elif mounts > 12:
         return jsonify({"error": "mounts must be greater less then 12"}), 400
+    
+    if age is None:
+        return jsonify({"error": "age parameter is required"}), 400
+    if gender is None:
+        return jsonify({"error": "gender parameter is required"}), 400
 
-    prompt = (f"Ти тренер з бігу, мені потрібний тренувальний план на {mounts} місяці, розписаний по місяцям")
+    if age < 18:
+        return jsonify({"error": 'You are too young to run'}), 400
+    elif age > 80:
+        return jsonify({"error": "you are too old to run"}), 400
+
+    if gender not in ["male", "female"]:
+        return jsonify({"error": "gender must be \"male\" or \"female\""}), 400
+    
+    gender_translation = {"male": "чоловік", "female": "жінка"}
+
+    prompt = (f"Ти тренер з бігу, я {gender_translation[gender]} {age} років, мені потрібний тренувальний план на {mounts} місяці, розписаний по місяцям")
+    
     result = generatePlan(prompt)
 
     if (result):
