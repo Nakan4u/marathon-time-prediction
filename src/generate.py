@@ -25,13 +25,13 @@ def generatePlanWithOpenAI(systemContent, userContent):
   )
 
   completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gpt-4",
     messages=[
       {"role": "system", "content": systemContent},
       {"role": "user", "content": userContent}
     ]
   )
   
-  result = completion.choices[0].message
+  result = completion.choices[0].message.content
   
   return result
