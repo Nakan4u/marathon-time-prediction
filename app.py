@@ -44,7 +44,7 @@ def predict():
     
     return jsonify({"error": "an error happen, we can not predict your time :("}), 400
 
-@app.route('/plan')
+@app.route('/plan', methods=['GET'])
 def getPlan():
     mounts = request.args.get('mounts', default = '6', type = int)
     age = request.args.get('age', default = '18', type = int)
