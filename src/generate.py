@@ -1,5 +1,7 @@
 import vertexai
 from vertexai.language_models import TextGenerationModel
+import os
+from openai import OpenAI
 
 def generatePlan(prompt):
   vertexai.init(project="marathon-time-prediction", location="europe-west4")
@@ -15,7 +17,21 @@ def generatePlan(prompt):
       prompt,
       **parameters
   )
-  print(f"Response from Model: {response.text}")
   return response.text
+
+def generatePlanWithOpenAI(systemContent, userContent):
+  client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY")
+  )
+
+  completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+      {"role": "system", "content": systemContent},
+      {"role": "user", "content": userContent}
+    ]
+  )
   
+  result = completion.choices[0].message
   
+  return result

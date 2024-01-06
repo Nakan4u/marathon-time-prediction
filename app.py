@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from src.generate import generatePlan
+from src.generate import generatePlan, generatePlanWithOpenAI
 from src.predict import predictMarathonTime
 from src.helpers import get_pace_time
 
@@ -46,17 +46,18 @@ def predict():
 
 @app.route('/plan', methods=['GET'])
 def getPlan():
-    mounts = request.args.get('mounts', default = '6', type = int)
+    months = request.args.get('months', default = '6', type = int)
     age = request.args.get('age', default = '18', type = int)
     gender = request.args.get('gender', default = 'male', type = str)
+    assistant = request.args.get('assistant', default = 'vertex-ai', type = str)
 
-    if mounts is None:
-        return jsonify({"error": "mounts parameter is required"}), 400
+    if months is None:
+        return jsonify({"error": "months parameter is required"}), 400
 
-    if mounts < 3:
-        return jsonify({"error": "mounts must be greater than 3"}), 400
-    elif mounts > 12:
-        return jsonify({"error": "mounts must be greater less then 12"}), 400
+    if months < 3:
+        return jsonify({"error": "months must be greater than 3"}), 400
+    elif months > 12:
+        return jsonify({"error": "months must be greater less then 12"}), 400
     
     if age is None:
         return jsonify({"error": "age parameter is required"}), 400
@@ -71,11 +72,19 @@ def getPlan():
     if gender not in ["male", "female"]:
         return jsonify({"error": "gender must be \"male\" or \"female\""}), 400
     
+    if assistant not in ["vertex-ai", "open-ai"]:
+        return jsonify({"error": "assistant must be \"vertex-ai\" or \"open-ai\""}), 400
+    
     gender_translation = {"male": "чоловік", "female": "жінка"}
 
-    prompt = (f"Ти тренер з бігу, я {gender_translation[gender]} {age} років, мені потрібний тренувальний план на {mounts} місяці, розписаний по місяцям")
+    userContent = (f"Я {gender_translation[gender]} {age} років, мені потрібний тренувальний план на {months} місяці, розписаний по місяцям")
+    systemContent = 'Ти професійний тренер з бігу,'
     
-    result = generatePlan(prompt)
+    if (assistant == 'vertex-ai') :
+        prompt = systemContent + userContent
+        result = generatePlan(prompt)
+    elif (assistant == 'open-ai') :
+        result = generatePlanWithOpenAI(systemContent, userContent)
 
     if (result):
         return result
