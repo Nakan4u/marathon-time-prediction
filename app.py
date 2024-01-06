@@ -35,7 +35,7 @@ def predict():
     if gender not in ["male", "female"]:
         return jsonify({"error": "gender must be \"male\" or \"female\""}), 400
 
-    # prediction = model.predict(age, gender)
+    # prediction
     time = predictMarathonTime(int(age), gender)
     
     if (time):
