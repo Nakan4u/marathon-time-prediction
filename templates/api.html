@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marathon time prediction</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="preload" as="font">
+<link href="/static/cloud-run-32-color.png" rel="icon" type="image/png" />
+<link href="/static/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="container">
+		<div class="hero">
+			<div style="text-align:center;">
+				<picture>
+					<source srcset="/static/celebration-dark.svg" media="(prefers-color-scheme: dark)">
+					<img src="/static/celebration.svg" alt="A group celebrating" width="427" height="231">
+				</picture>
+			</div>
+
+			<div class="message">
+				<h1>{{message}}</h1>
+			</div>
+
+			<div class="details">
+				<h3>Get marathon time predictions</h3>
+				<p>It used trained model based on Berlin marathon data for the last 49 years.</p>
+				<p>To get predictions you need provide your <i>age</i> and <i>gender</i> as query params:
+					<a target="_blank" href="/predict?age=35&gender=male">link</a>
+				</p>
+				<h3>Get marathon training plan</h3>
+				<p>To get tranning plan within Google Vertex AI or Open AI APIs, you need provide: <i>age</i>, <i>gender</i>, <i>months</i> and <i>assistant</i> as a query params:
+					<a target="_blank" href="/plan?age=35&gender=male&months=6&assistant=open-ai">link</a>
+				</p>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
