@@ -8,7 +8,7 @@ def generatePlan(prompt):
   parameters = {
       "candidate_count": 1,
       "max_output_tokens": 2048,
-      "temperature": 0.9,
+      "temperature": 0.5,
       "top_p": 1
   }
   model = TextGenerationModel.from_pretrained("text-bison")
@@ -26,6 +26,7 @@ def generatePlanWithOpenAI(systemContent, userContent):
 
   completion = client.chat.completions.create(
     model="gpt-4",
+    temperature= "0.5",
     messages=[
       {"role": "system", "content": systemContent},
       {"role": "user", "content": userContent}
