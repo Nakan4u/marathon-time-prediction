@@ -83,7 +83,7 @@ def getPlan():
     
     gender_translation = {"male": "чоловік", "female": "жінка"}
 
-    userContent = (f"Я {gender_translation[gender]} {age} років, мені потрібний тренувальний план на {months} місяці, розписаний по місяцям в Markdown")
+    userContent = (f"Я {gender_translation[gender]} {age} років, мені потрібний тренувальний план для підготовки до Марафону (42км. 195м.) на {months} місяців, розписаний по місяцям в Markdown")
     systemContent = 'Ти професійний тренер з бігу,'
     
     if (assistant == 'vertex-ai') :
