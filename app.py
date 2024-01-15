@@ -6,11 +6,16 @@ from src.predict import predictMarathonTime
 from src.helpers import get_pace_time
 
 # pylint: disable=C0103
-app = Flask(__name__)
+app = Flask(__name__, template_folder='dist')
 # TODO remove cors when app will be deployed with front-end
 CORS(app) 
 
 @app.route('/')
+def home():
+
+    return render_template('index.html')
+
+@app.route('/api')
 def hello():
 
     message = 'Welcome to the Marathon Prediction App!'
