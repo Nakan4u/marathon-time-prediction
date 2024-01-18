@@ -26,7 +26,7 @@ def generatePlanWithOpenAI(systemContent, userContent):
 
   completion = client.chat.completions.create(
     model="gpt-4",
-    temperature= "0.5",
+    temperature=0.5,
     messages=[
       {"role": "system", "content": systemContent},
       {"role": "user", "content": userContent}
